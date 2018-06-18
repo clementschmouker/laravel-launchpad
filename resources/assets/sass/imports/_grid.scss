@@ -6,20 +6,22 @@ $grid-width: 80%;
 $grid-max-width: 1024px;
 
 $col-number: 9;
-$gut-width: 10px;
+$gut-width: 1.953125%;
+$col-width: 9.375%;
 $margin: 10%;
+
 
 .grid-container {
     display: flex;
     justify-content: space-between;
     position: fixed;
+    z-index: 1000000;
     pointer-events: none;
     top: 0;
     left: 50%;
     width: $grid-width;
     height: 100vh;
     max-width: $grid-max-width;
-    // padding: 0 $margin;
     box-sizing: border-box;
 
     background: rgba(#BADA55, .3);
@@ -36,7 +38,7 @@ $margin: 10%;
 
 .grid-column {
     display: block;
-    width: calc(((100% / #{$col-number}) - #{$gut-width}));
+    width: $col-width;
     height: 100%;
     background: rgba(0, 255, 0, .5);
 }
@@ -46,23 +48,24 @@ $margin: 10%;
     position: relative;
     max-width: 100%;
     padding: 0 $margin;
-    // padding: 0 calc(#{$margin} + ((#{$grid-max-width} - #{$grid-width}) / 2));
     margin: 0 auto;
-
-    &::before {
-        content: '';
-        display: block;
-        @include position(absolute, 0, null, null, 0);
-        z-index: -1;
-        width: 400px;
-        height: 200px;
-
-        background: red;
-    }
 }
 
 .ctn__inner {
     max-width: $grid-max-width;
     margin: 0 auto;
     width: 100%;
+}
+
+@for $i from 1 to 10 {   
+    $that-width: ($col-width * $i) + ($gut-width * ($i - 1));
+
+    .col-#{$i} {
+        width: $that-width;
+    }
+
+
+    .mlg-#{$i} {
+        margin-left: #{$col-width * $i + $i * $gut-width}; 
+    }
 }
