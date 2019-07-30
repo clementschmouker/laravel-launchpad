@@ -5,6 +5,10 @@ export default class CS_grid {
     constructor(params) {
         console.log('init grid')
 
+        this.gPressed = false;
+        this.ctrlPressed = false;
+        this.wPressed = false;
+
         this.$els = {
             body: document.querySelector('body')
         }
@@ -46,12 +50,38 @@ export default class CS_grid {
     bindEvents() {
         window.addEventListener('keydown', (e) => {
             if (e.key == 'g') {
-                this.onKeyPressed()
+                this.gPressed = true;
+            }
+            if (e.key == 'w') {
+                this.wPressed = true;
+            }
+            if (e.keyCode == 18) {
+                this.ctrlPressed = true;
+            }
+
+            if (this.gPressed && this.ctrlPressed) {
+                this.openGrid();
+            }
+
+            if (this.wPressed && this.ctrlPressed && this.gridCtn.classList.contains('is-open')) {
+                this.gridCtn.classList.toggle('white');
+            }
+        });
+
+        window.addEventListener('keyup', e => {
+            if (e.key == 'g') {
+                this.gPressed = false;
+            }
+            if (e.key == 'w') {
+                this.wPressed = false;
+            }
+            if (e.keyCode == 18) {
+                this.ctrlPressed = false;
             }
         })
     }
 
-    onKeyPressed() {
+    openGrid() {
         this.gridCtn.classList.toggle('is-open');
     }
 

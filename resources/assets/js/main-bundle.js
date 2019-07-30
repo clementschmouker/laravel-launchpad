@@ -15,6 +15,10 @@ var CS_grid = function () {
 
         console.log('init grid');
 
+        this.gPressed = false;
+        this.ctrlPressed = false;
+        this.wPressed = false;
+
         this.$els = {
             body: document.querySelector('body')
         };
@@ -55,13 +59,39 @@ var CS_grid = function () {
 
             window.addEventListener('keydown', function (e) {
                 if (e.key == 'g') {
-                    _this.onKeyPressed();
+                    _this.gPressed = true;
+                }
+                if (e.key == 'w') {
+                    _this.wPressed = true;
+                }
+                if (e.keyCode == 18) {
+                    _this.ctrlPressed = true;
+                }
+
+                if (_this.gPressed && _this.ctrlPressed) {
+                    _this.openGrid();
+                }
+
+                if (_this.wPressed && _this.ctrlPressed && _this.gridCtn.classList.contains('is-open')) {
+                    _this.gridCtn.classList.toggle('white');
+                }
+            });
+
+            window.addEventListener('keyup', function (e) {
+                if (e.key == 'g') {
+                    _this.gPressed = false;
+                }
+                if (e.key == 'w') {
+                    _this.wPressed = false;
+                }
+                if (e.keyCode == 18) {
+                    _this.ctrlPressed = false;
                 }
             });
         }
     }, {
-        key: 'onKeyPressed',
-        value: function onKeyPressed() {
+        key: 'openGrid',
+        value: function openGrid() {
             this.gridCtn.classList.toggle('is-open');
         }
     }]);
